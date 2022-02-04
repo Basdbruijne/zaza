@@ -952,7 +952,7 @@ class ActionFailed(Exception):
         message = ('Run of action "{name}" with parameters "{parameters}" on '
                    '"{receiver}" failed with "{message}" (id={id} '
                    'status={status} enqueued={enqueued} started={started} '
-                   'completed={completed} output={output})'
+                   'completed={completed} output={output.replace('\\n', '\n')})'
                    .format(**params))
         super(ActionFailed, self).__init__(message)
 
