@@ -941,6 +941,9 @@ class ActionFailed(Exception):
         # Bug: #314  -- unfortunately, libjuju goes bang even if getattr(x,y,
         # default) is used, which means we physically have to check for
         # KeyError.
+        if isinstance(output, dict):
+            for key in output:
+                output[key].replace('\\n', '\n')
         params = {'output': output}
         for key in ['name', 'parameters', 'receiver', 'message', 'id',
                     'status', 'enqueued', 'started', 'completed']:
@@ -952,7 +955,7 @@ class ActionFailed(Exception):
         message = ('Run of action "{name}" with parameters "{parameters}" on '
                    '"{receiver}" failed with "{message}" (id={id} '
                    'status={status} enqueued={enqueued} started={started} '
-                   'completed={completed} output={output.replace('\\n', '\n')})'
+                   'completed={completed} output={output})'
                    .format(**params))
         super(ActionFailed, self).__init__(message)
 
